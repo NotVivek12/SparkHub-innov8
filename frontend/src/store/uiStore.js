@@ -46,9 +46,15 @@ const useUIStore = create(
       
       // Theme actions
       toggleTheme: () => {
-        set(state => ({
-          theme: state.theme === 'dark' ? 'light' : 'dark'
-        }));
+        set(state => {
+          const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+          console.log('Theme toggled from', state.theme, 'to', newTheme);
+          // Also set in localStorage for redundancy
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('theme-preference', newTheme);
+          }
+          return { theme: newTheme };
+        });
       },
       
       setTheme: (theme) => {

@@ -1,3 +1,7 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
-@import "./styles/global.css";
+/* Global styles */
+@import './styles/global.css';
+
+/* Enable Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
