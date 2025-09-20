@@ -111,12 +111,12 @@ const PORT = process.env.PORT || 5000;
 // Start server
 const server = app.listen(PORT, () => {
   console.log(`
-🚀 SparkHub API Server is running!
-📍 Port: ${PORT}
-🌍 Environment: ${process.env.NODE_ENV || 'development'}
-💡 Tagline: From Classroom Concept to Real-World Creation
-📚 Health Check: http://localhost:${PORT}/health
-📖 API Info: http://localhost:${PORT}/api
+    SparkHub API Server is running!
+    Port: ${PORT}
+    Environment: ${process.env.NODE_ENV || 'development'}
+    Tagline: From Classroom Concept to Real-World Creation
+    Health Check: http://localhost:${PORT}/health
+    API Info: http://localhost:${PORT}/api
   `);
 });
 
