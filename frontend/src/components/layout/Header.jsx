@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Search, Bell, User, Settings, LogOut, Menu, X, 
-  Home, Users, Lightbulb, MessageCircle, Plus, Moon, Sun 
+import {
+  Search, Bell, User, Settings, LogOut, Menu, X,
+  Home, Users, Lightbulb, MessageCircle, Plus, Moon, Sun
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
@@ -12,16 +12,16 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuthStore();
-  const { 
-    theme, 
-    toggleTheme, 
-    notifications, 
+  const {
+    theme,
+    toggleTheme,
+    notifications,
     getUnreadNotificationCount,
-    searchQuery, 
+    searchQuery,
     setSearchQuery,
-    setSearchActive 
+    setSearchActive
   } = useUIStore();
-  
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -31,10 +31,10 @@ const Header = () => {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Community', href: '/community', icon: MessageCircle },
     ...(isAuthenticated ? [
-      { 
-        name: user?.role === 'mentor' ? 'Mentor Dashboard' : 'Dashboard', 
-        href: user?.role === 'mentor' ? '/mentor-dashboard' : '/student-dashboard', 
-        icon: Users 
+      {
+        name: user?.role === 'mentor' ? 'Mentor Dashboard' : 'Dashboard',
+        href: user?.role === 'mentor' ? '/mentor-dashboard' : '/student-dashboard',
+        icon: Users
       },
       { name: 'Submit Idea', href: '/submit-idea', icon: Plus },
     ] : [])
@@ -72,7 +72,7 @@ const Header = () => {
   }, []);
 
   return (
-    <motion.header 
+    <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className="fixed top-0 left-0 right-0 z-50 bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 shadow-large"
@@ -80,7 +80,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05 }}
             className="flex items-center gap-3"
           >
@@ -138,11 +138,10 @@ const Header = () => {
                 <Link
                   key={index}
                   to={item.href}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
-                    isActive 
-                      ? 'text-blue-400 bg-blue-500/20' 
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${isActive
+                      ? 'text-blue-400 bg-blue-500/20'
                       : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                  }`}
+                    }`}
                 >
                   <item.icon className="w-4 h-4" />
                   <span className="font-medium">{item.name}</span>
@@ -209,9 +208,8 @@ const Header = () => {
                           notifications.slice(0, 5).map((notification) => (
                             <div
                               key={notification.id}
-                              className={`p-4 border-b border-gray-700/50 last:border-b-0 hover:bg-gray-700/30 transition-colors ${
-                                !notification.read ? 'bg-blue-500/10' : ''
-                              }`}
+                              className={`p-4 border-b border-gray-700/50 last:border-b-0 hover:bg-gray-700/30 transition-colors ${!notification.read ? 'bg-blue-500/10' : ''
+                                }`}
                             >
                               <p className="text-white text-sm">{notification.message}</p>
                               <p className="text-gray-400 text-xs mt-1">
@@ -305,7 +303,8 @@ const Header = () => {
                   Login
                 </Link>
                 <Link
-                  to="/register"
+                  to="/signup"
+                  onClick={() => setIsMenuOpen(false)}
                   className="bg-gradient-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition-transform font-medium"
                 >
                   Sign Up
@@ -354,11 +353,10 @@ const Header = () => {
                     key={index}
                     to={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                      isActive 
-                        ? 'text-blue-400 bg-blue-500/20' 
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                        ? 'text-blue-400 bg-blue-500/20'
                         : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                    }`}
+                      }`}
                   >
                     <item.icon className="w-5 h-5" />
                     <span>{item.name}</span>
@@ -378,7 +376,7 @@ const Header = () => {
                   Login
                 </Link>
                 <Link
-                  to="/register"
+                  to="/signup"
                   onClick={() => setIsMenuOpen(false)}
                   className="block text-center bg-gradient-primary text-white py-3 rounded-lg font-medium"
                 >

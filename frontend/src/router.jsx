@@ -6,8 +6,9 @@ import MentorDashboard from './pages/MentorDashboard';
 import IdeaSubmission from './pages/IdeaSubmission';
 import ProjectDetails from './pages/ProjectDetails';
 import Community from './pages/Community';
+import Login from './pages/Login';
 import Profile from './pages/Profile';
-
+import Signup from './pages/Signup';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -40,6 +41,14 @@ export const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+       {
+        path: '/signup',
+        element: <Signup />,
       },
     ],
   },

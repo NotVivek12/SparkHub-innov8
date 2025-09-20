@@ -6,15 +6,12 @@ import Card from '../components/ui/Card';
 const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Hero Section - Modern 3D Depth Effect */}
       <section className="relative pt-28 pb-32 lg:pt-40 lg:pb-40 overflow-hidden">
-        {/* Enhanced Background Effects with Parallax */}
         <div className="absolute inset-0 bg-mesh-gradient opacity-10 animate-gradient-y" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary-700/10 via-accent-600/10 to-primary-700/10" />
         <div className="absolute top-1/3 left-20 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-1/4 right-20 w-80 h-80 bg-accent-500/10 rounded-full blur-3xl -z-10" />
         
-        {/* Floating Elements - Subtle Animation */}
         <motion.div 
           className="absolute top-20 left-10 w-20 h-20 rounded-full border border-primary-500/20 opacity-30"
           animate={{ y: [-10, 10, -10], rotate: [0, 10, 0] }}
@@ -28,7 +25,6 @@ const Home = () => {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            {/* Modern Animated Badge - More Premium Look */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -40,7 +36,6 @@ const Home = () => {
               <ChevronRight className="w-4 h-4" />
             </motion.div>
 
-            {/* Hero Title - Enhanced Typography */}
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -53,7 +48,6 @@ const Home = () => {
               </span>
             </motion.h1>
             
-            {/* Subtitle - More Contrast and Readability */}
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -65,7 +59,6 @@ const Home = () => {
               into world-changing innovations.
             </motion.p>
             
-            {/* CTA Buttons - Modern and Accessible Design */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
