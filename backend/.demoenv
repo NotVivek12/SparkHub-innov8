@@ -1,0 +1,9 @@
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Database Configuration
+MONGODB_URI=>connectionurl>sparkhub?retryWrites=true&w=majority
+
+# CORS Configuration
+FRONTEND_URL=http://localhost:5173
