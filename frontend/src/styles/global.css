@@ -384,7 +384,7 @@ html {
   }
 }
 
-/* Reduced motion preferences */
+/* Reduced motion by default - Performance optimized */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -394,13 +394,19 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
-  .animate-float,
-  .animate-pulse-glow,
-  .animate-gradient,
-  .animate-shimmer {
-    animation: none !important;
-  }
+}
+
+/* Disable heavy animations by default for better performance */
+.animate-float,
+.animate-pulse-glow,
+.animate-gradient,
+.animate-shimmer {
+  /* animation: none; - Disabled for performance */
+}
+
+/* Simple transitions only */
+* {
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 /* Print styles */
