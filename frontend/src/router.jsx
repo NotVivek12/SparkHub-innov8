@@ -8,8 +8,6 @@ import ProjectDetails from './pages/ProjectDetails';
 import Community from './pages/Community';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-<<<<<<< HEAD
-import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 // Simple placeholder component for missing pages
@@ -25,9 +23,6 @@ const PlaceholderPage = ({ title }) => (
   </div>
 );
 
-=======
-import Signup from './pages/Signup';
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -65,7 +60,10 @@ export const router = createBrowserRouter([
         path: '/login',
         element: <Login />,
       },
-<<<<<<< HEAD
+      {
+        path: '/signup',
+        element: <Signup />,
+      },
       // Placeholder pages for missing routes
       {
         path: '/register',
@@ -159,12 +157,6 @@ export const router = createBrowserRouter([
           </div>
         ),
       },
-=======
-       {
-        path: '/signup',
-        element: <Signup />,
-      },
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
     ],
   },
 ]);
