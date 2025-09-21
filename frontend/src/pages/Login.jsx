@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Eye, EyeOff, ArrowLeft } from 'lucide-react';
@@ -19,32 +18,10 @@ const Login = () => {
       ...formData,
       [name]: value,
     });
-=======
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
-import LoadingSpinner from "../components/ui/LoadingSpinner";
-import FloatingElements from "../components/animations/FloatingElements";
-import MorphingShapes from "../components/animations/MorphingShapes";
-import ParticleBackground from "../components/animations/ParticleBackground";
-import PageTransition from "../components/animations/PageTransitions";
-
-const Login = () => {
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     setError('');
 
     if (!formData.email || !formData.password) {
@@ -55,12 +32,12 @@ const Login = () => {
     setIsLoading(true);
 
     // --- Start of Mock API Call ---
-    // In a real application, you would replace this with an actual API call.
-    // Simulating network delay for demonstration
     setTimeout(() => {
       setIsLoading(false);
-      // Mock login validation
-      if (formData.email === 'user@example.com' && formData.password === 'password123') {
+      if (
+        formData.email === 'user@example.com' &&
+        formData.password === 'password123'
+      ) {
         navigate('/student-dashboard');
       } else {
         setError('Invalid email or password.');
@@ -79,8 +56,8 @@ const Login = () => {
 
       <div className="relative w-full max-w-md">
         {/* Back to Home */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -95,14 +72,19 @@ const Login = () => {
               <span className="text-white font-bold text-2xl">S</span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-400">Sign in to continue your innovation journey</p>
+            <p className="text-gray-400">
+              Sign in to continue your innovation journey
+            </p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -119,7 +101,10 @@ const Login = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -138,7 +123,11 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -146,14 +135,17 @@ const Login = () => {
             {/* Remember Me / Forgot Password */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-400">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   name="remember"
-                  className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500" 
+                  className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
                 />
                 Remember me
               </label>
-              <Link to="/forgot-password" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <Link
+                to="/forgot-password"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -189,8 +181,6 @@ const Login = () => {
             </div>
           </div>
 
-         
-
           {/* Sign Up Link */}
           <div className="text-center mt-8">
             <p className="text-gray-400">
@@ -217,91 +207,3 @@ const Login = () => {
 };
 
 export default Login;
-=======
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (!form.email || !form.password) {
-        setError("Please enter both email and password.");
-      } else {
-        // Here you would handle authentication
-        setError("");
-      }
-    }, 1500);
-  };
-
-  return (
-    <>
-      <ParticleBackground particleCount={60} colorMode="modern" interactivity="attract" />
-      <MorphingShapes shapeCount={4} colorMode="mixed" className="pointer-events-none" />
-      <FloatingElements className="pointer-events-none" />
-      <PageTransition>
-        <div className="min-h-screen flex items-center justify-center relative z-20">
-          <Card
-            variant="glass"
-            padding="lg"
-            shadow="glow"
-            rounded="2xl"
-            className="w-full max-w-md mx-auto"
-          >
-            <h2 className="text-3xl font-bold text-center text-primary-600 mb-6">
-              Welcome Back
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <Input
-                label="Email"
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                value={form.email}
-                onChange={handleChange}
-                error={error && !form.email ? error : ""}
-                size="md"
-                variant="filled"
-                autoFocus
-              />
-              <Input
-                label="Password"
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-                value={form.password}
-                onChange={handleChange}
-                error={error && !form.password ? error : ""}
-                size="md"
-                variant="filled"
-              />
-              {error && form.email && form.password && (
-                <div className="text-error-500 text-sm text-center">{error}</div>
-              )}
-              <Button
-                type="submit"
-                size="lg"
-                variant="primary"
-                className="w-full"
-                loading={loading}
-                disabled={loading}
-              >
-                {loading ? <LoadingSpinner size="sm" color="primary" /> : "Log In"}
-              </Button>
-            </form>
-            <div className="mt-6 text-center text-gray-600 dark:text-gray-400">
-              <span>Don't have an account?</span>{" "}
-              <Link
-                to="/signup"
-                className="text-primary-500 font-semibold hover:underline"
-              >
-                Sign Up
-              </Link>
-            </div>
-          </Card>
-        </div>
-      </PageTransition>
-    </>
-  );
-};
-
-export default Login;
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
