@@ -310,9 +310,6 @@ html {
   }
 }
 
-<<<<<<< HEAD
-/* Reduced motion by default - Performance optimized */
-=======
 @media (max-width: 480px) {
   html {
     scroll-padding-top: 80px;
@@ -320,7 +317,6 @@ html {
 }
 
 /* Reduced motion preferences */
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -330,27 +326,14 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-<<<<<<< HEAD
-}
-
-/* Disable heavy animations by default for better performance */
-.animate-float,
-.animate-pulse-glow,
-.animate-gradient,
-.animate-shimmer {
-  /* animation: none; - Disabled for performance */
-}
 
 /* Simple transitions only */
-* {
-  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-=======
-  
-  .animate-float,
-  .animate-pulse-glow {
-    animation: none !important;
+  * {
+    .animate-float,
+    .animate-pulse-glow {
+      animation: none !important;
+    }
   }
->>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
 }
 
 /* Print styles */
