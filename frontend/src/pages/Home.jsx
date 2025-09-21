@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Lightbulb, Users, Target, Star, TrendingUp, Zap, ChevronRight, Play, CheckCircle, BarChart, Heart, Award } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -65,25 +66,29 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
             >
-              <Button 
-                size="xl" 
-                variant="primary"
-                rightIcon={<ArrowRight className="w-5 h-5" />}
-                className="text-lg px-10 py-5 shadow-glow hover:shadow-glow-lg btn-shimmer"
-              >
-                Start Your Journey
-              </Button>
-              <Button 
-                size="xl" 
-                variant="ghost"
-                leftIcon={<Play className="w-5 h-5" />}
-                className="text-lg px-10 py-5 text-white border border-white/20 hover:bg-white/10"
-              >
-                Watch Demo
-              </Button>
+              <Link to="/submit-idea">
+                <Button 
+                  size="xl" 
+                  variant="primary"
+                  rightIcon={<ArrowRight className="w-5 h-5" />}
+                  className="text-lg px-10 py-5 shadow-glow hover:shadow-glow-lg btn-shimmer"
+                >
+                  Start Your Journey
+                </Button>
+              </Link>
+              <Link to="/community">
+                <Button 
+                  size="xl" 
+                  variant="ghost"
+                  leftIcon={<Play className="w-5 h-5" />}
+                  className="text-lg px-10 py-5 text-white border border-white/20 hover:bg-white/10"
+                >
+                  Watch Demo
+                </Button>
+              </Link>
             </motion.div>
 
-            {/* Stats - Enhanced Visual Appeal with Cards */}
+            {/* Stats Section */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,14 +120,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section - Modern Card Design */}
+      {/* Features Section */}
       <section className="py-24 lg:py-32 relative">
-        {/* Background Accent */}
         <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent" />
         <div className="absolute -top-10 left-1/4 w-96 h-96 bg-primary-600/5 rounded-full blur-3xl -z-10" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header - Improved Typography */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -146,7 +149,6 @@ const Home = () => {
             </p>
           </motion.div>
 
-          {/* Feature Cards - Modern Glassmorphism */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -154,42 +156,48 @@ const Home = () => {
                 title: 'Ideate',
                 description: 'Spark creativity with our idea generation tools and collaborative brainstorming sessions.',
                 gradient: 'from-yellow-400 to-orange-500',
-                delay: 0
+                delay: 0,
+                link: '/submit-idea'
               },
               {
                 icon: Users,
                 title: 'Collaborate',
                 description: 'Connect with like-minded innovators, expert mentors, and industry professionals.',
                 gradient: 'from-blue-400 to-purple-500',
-                delay: 0.1
+                delay: 0.1,
+                link: '/community'
               },
               {
                 icon: Target,
                 title: 'Execute',
                 description: 'Turn concepts into reality with structured project management and expert guidance.',
                 gradient: 'from-green-400 to-blue-500',
-                delay: 0.2
+                delay: 0.2,
+                link: '/student-dashboard'
               },
               {
                 icon: Zap,
                 title: 'Accelerate',
                 description: 'Fast-track your projects with cutting-edge tools and proven methodologies.',
                 gradient: 'from-purple-400 to-pink-500',
-                delay: 0.3
+                delay: 0.3,
+                link: '/mentor-dashboard'
               },
               {
                 icon: Heart,
                 title: 'Achieve',
                 description: 'Celebrate your successes and showcase your innovations to the world.',
                 gradient: 'from-orange-400 to-red-500',
-                delay: 0.4
+                delay: 0.4,
+                link: '/profile'
               },
               {
                 icon: TrendingUp,
                 title: 'Scale',
                 description: 'Grow your impact with resources for scaling and commercializing your innovations.',
                 gradient: 'from-teal-400 to-blue-500',
-                delay: 0.5
+                delay: 0.5,
+                link: '/community'
               }
             ].map((feature, index) => (
               <motion.div
@@ -199,116 +207,42 @@ const Home = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: feature.delay }}
               >
-                <Card 
-                  variant="glass"
-                  hover={true}
-                  rounded="2xl"
-                  shadow="medium"
-                  className="h-full p-8 group border border-white/10 hover:border-primary-500/40"
-                >
-                  {/* Modern Icon Design */}
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.gradient} p-0.5 mb-8 group-hover:animate-pulse-glow`}>
-                    <div className="w-full h-full bg-gray-900/80 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                      <feature.icon className="w-7 h-7 text-white" />
+                <Link to={feature.link}>
+                  <Card 
+                    variant="glass"
+                    hover={true}
+                    rounded="2xl"
+                    shadow="medium"
+                    className="h-full p-8 group border border-white/10 hover:border-primary-500/40 cursor-pointer"
+                  >
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.gradient} p-0.5 mb-8 group-hover:animate-pulse-glow`}>
+                      <div className="w-full h-full bg-gray-900/80 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                        <feature.icon className="w-7 h-7 text-white" />
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Enhanced Typography */}
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-gray-300 leading-relaxed">
-                    {feature.description}
-                  </p>
-                  
-                  {/* Subtle Action Indicator */}
-                  <div className="mt-6 flex items-center text-sm text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="mr-2">Learn more</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </div>
-                </Card>
+                    
+                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">
+                      {feature.title}
+                    </h3>
+                    
+                    <p className="text-gray-300 leading-relaxed">
+                      {feature.description}
+                    </p>
+                    
+                    <div className="mt-6 flex items-center text-sm text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="mr-2">Learn more</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Social Proof Section - New */}
-      <section className="py-20 lg:py-28 relative">
-        <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-gray-900/0 via-primary-900/5 to-gray-900/0" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">
-              Trusted by Innovators Worldwide
-            </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Join thousands of students, mentors, and organizations using SparkHub to bring their innovations to life.
-            </p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "SparkHub helped me take my research project from concept to a funded startup in less than 6 months.",
-                author: "Sarah J.",
-                role: "PhD Student, MIT",
-                delay: 0
-              },
-              {
-                quote: "The mentorship I received through SparkHub was invaluable - it saved me months of trial and error.",
-                author: "Michael T.",
-                role: "Undergraduate, Stanford",
-                delay: 0.1
-              },
-              {
-                quote: "As a mentor, I've seen incredible ideas flourish with the right support that SparkHub provides.",
-                author: "Dr. Alicia R.",
-                role: "Innovation Director, Google",
-                delay: 0.2
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: testimonial.delay }}
-              >
-                <Card
-                  variant="glass"
-                  hover={false}
-                  rounded="2xl"
-                  className="h-full p-8 border-white/5"
-                >
-                  <div className="flex flex-col h-full">
-                    <div className="mb-6 text-primary-300">
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <path d="M10 7L8 11L11 13L9 17H15L13 13L16 11L14 7H10Z" fill="currentColor" />
-                      </svg>
-                    </div>
-                    <p className="text-lg text-gray-200 mb-6 flex-grow">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-medium text-white">{testimonial.author}</p>
-                      <p className="text-sm text-gray-400">{testimonial.role}</p>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - Modern Design */}
+      {/* CTA Section */}
       <section className="py-20 lg:py-32 relative">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900/0 via-primary-900/10 to-gray-900/0" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent" />
         
@@ -326,7 +260,6 @@ const Home = () => {
               shadow="large"
               className="border-primary-500/30 overflow-hidden relative"
             >
-              {/* Decorative Elements */}
               <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary-500/20 rounded-full blur-3xl" />
               <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl" />
               
@@ -344,21 +277,25 @@ const Home = () => {
                   Join thousands of innovators who are already transforming their ideas into reality.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-5 justify-center">
-                  <Button 
-                    size="xl" 
-                    variant="primary"
-                    rightIcon={<ArrowRight className="w-5 h-5" />}
-                    className="shadow-glow hover:shadow-glow-lg btn-shimmer text-lg"
-                  >
-                    Get Started Free
-                  </Button>
-                  <Button 
-                    size="xl" 
-                    variant="outline"
-                    className="border-white/20 text-white hover:bg-white/10 text-lg"
-                  >
-                    Book a Demo
-                  </Button>
+                  <Link to="/register">
+                    <Button 
+                      size="xl" 
+                      variant="primary"
+                      rightIcon={<ArrowRight className="w-5 h-5" />}
+                      className="shadow-glow hover:shadow-glow-lg btn-shimmer text-lg"
+                    >
+                      Get Started Free
+                    </Button>
+                  </Link>
+                  <Link to="/contact">
+                    <Button 
+                      size="xl" 
+                      variant="outline"
+                      className="border-white/20 text-white hover:bg-white/10 text-lg"
+                    >
+                      Book a Demo
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Card>
