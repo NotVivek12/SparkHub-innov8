@@ -1,14 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from './App';
-import Home from './pages/Home';
-import StudentDashboard from './pages/StudentDashboard';
-import MentorDashboard from './pages/MentorDashboard';
-import IdeaSubmission from './pages/IdeaSubmission';
-import ProjectDetails from './pages/ProjectDetails';
-import Community from './pages/Community';
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
+import App from './App.jsx';
+import Home from './pages/Home.jsx';
+import StudentDashboard from './pages/StudentDashboard.jsx';
+import MentorDashboard from './pages/MentorDashboard.jsx';
+import IdeaSubmission from './pages/IdeaSubmission.jsx';
+import ProjectDetails from './pages/ProjectDetails.jsx';
+import Community from './pages/Community.jsx';
+import Login from './pages/Login.jsx';
+import Profile from './pages/Profile.jsx';
+import Signup from './pages/Signup.jsx';
+
 
 // Simple placeholder component for missing pages
 const PlaceholderPage = ({ title }) => (
