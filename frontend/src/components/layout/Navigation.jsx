@@ -9,7 +9,6 @@ const Navigation = ({ className = '' }) => {
   const { isAuthenticated, user } = useAuthStore();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Enhanced navigation items with descriptions and colors
   const navItems = [
     { 
       name: 'Home', 
@@ -50,12 +49,9 @@ const Navigation = ({ className = '' }) => {
     ] : [])
   ];
 
-  // Update active index based on current route
   useEffect(() => {
     const currentIndex = navItems.findIndex(item => item.href === location.pathname);
-    if (currentIndex !== -1) {
-      setActiveIndex(currentIndex);
-    }
+    if (currentIndex !== -1) setActiveIndex(currentIndex);
   }, [location.pathname, navItems]);
 
   return (
@@ -76,68 +72,50 @@ const Navigation = ({ className = '' }) => {
             <Link
               key={item.href}
               to={item.href}
-              className="relative flex flex-col items-center p-3 rounded-xl transition-all duration-200"
               onClick={() => setActiveIndex(index)}
+              className="relative flex flex-col items-center p-3 rounded-xl transition-all duration-200"
             >
-              {/* Enhanced background for active item */}
+              {/* Active background */}
               {isActive && (
                 <motion.div
                   layoutId="activeBackground"
-                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-xl shadow-lg opacity-90`}
+                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-xl shadow-lg opacity-90 pointer-events-none`}
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              
-              {/* Icon with enhanced animation */}
+
+              {/* Icon */}
               <motion.div
-                animate={{
-                  scale: isActive ? 1.2 : 1,
-                  y: isActive ? -4 : 0
-                }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 500, 
-                  damping: 15
-                }}
+                animate={{ scale: isActive ? 1.2 : 1, y: isActive ? -4 : 0 }}
+                transition={{ type: "spring", stiffness: 500, damping: 15 }}
                 className="relative z-10"
               >
                 <item.icon 
-                  className={`
-                    w-6 h-6 transition-all duration-300
-                    ${isActive ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'text-gray-400'}
-                  `}
+                  className={isActive 
+                    ? "w-6 h-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-300"
+                    : "w-6 h-6 text-gray-400 transition-all duration-300"
+                  }
                   strokeWidth={isActive ? 2.5 : 2} 
                 />
               </motion.div>
 
-              {/* Label with enhanced animation */}
+              {/* Label */}
               <motion.span
-                animate={{
-                  fontSize: isActive ? '0.8rem' : '0.65rem',
-                  fontWeight: isActive ? '600' : '400',
-                  opacity: isActive ? 1 : 0.7,
-                  y: isActive ? 1 : 0
-                }}
-                transition={{ 
-                  duration: 0.2,
-                  ease: "easeOut"
-                }}
-                className={`
-                  mt-1.5 text-center leading-tight relative z-10 whitespace-nowrap
-                  ${isActive ? 'text-white' : 'text-gray-400'}
-                `}
+                animate={{ fontSize: isActive ? '0.8rem' : '0.65rem', fontWeight: isActive ? '600' : '400', opacity: isActive ? 1 : 0.7, y: isActive ? 1 : 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className={`mt-1.5 text-center relative z-10 whitespace-nowrap ${isActive ? 'text-white' : 'text-gray-400'}`}
               >
                 {item.name}
               </motion.span>
 
-              {/* Tooltip description */}
+              {/* Tooltip */}
               <AnimatePresence>
                 {isActive && (
                   <motion.div
                     initial={{ opacity: 0, y: 10, scale: 0.8 }}
                     animate={{ opacity: 1, y: -42, scale: 1 }}
                     exit={{ opacity: 0, y: 5, scale: 0.9 }}
-                    className="absolute bottom-full mb-1 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-20"
+                    className="absolute bottom-full mb-1 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-20 pointer-events-none"
                   >
                     {item.description}
                     <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
@@ -145,19 +123,19 @@ const Navigation = ({ className = '' }) => {
                 )}
               </AnimatePresence>
 
-              {/* Active indicator - enhanced with pulse */}
+              {/* Active indicator */}
               {isActive && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: [0, 1.2, 1] }}
                   transition={{ duration: 0.4 }}
-                  className="absolute -top-1 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_5px_rgba(255,255,255,0.7)]"
+                  className="absolute -top-1 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_5px_rgba(255,255,255,0.7)] pointer-events-none"
                 />
               )}
 
-              {/* Enhanced ripple effect on tap */}
+              {/* Ripple overlay */}
               <motion.div
-                className="absolute inset-0 bg-white/20 rounded-xl opacity-0"
+                className="absolute inset-0 bg-white/20 rounded-xl opacity-0 pointer-events-none"
                 animate={isActive ? { opacity: [0, 0.4, 0] } : {}}
                 transition={{ duration: 0.5 }}
               />
@@ -166,12 +144,11 @@ const Navigation = ({ className = '' }) => {
         })}
       </div>
 
-      {/* Enhanced home indicator for iPhone-style */}
       <div className="flex justify-center pb-2">
         <motion.div 
           whileHover={{ width: "40%", opacity: 0.8 }}
           transition={{ duration: 0.3 }}
-          className="w-32 h-1 bg-gray-600/60 rounded-full backdrop-blur-sm"
+          className="w-32 h-1 bg-gray-600/60 rounded-full backdrop-blur-sm pointer-events-none"
         />
       </div>
     </motion.nav>
