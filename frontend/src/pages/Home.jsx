@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
 import { ArrowRight, Lightbulb, Users, Target, Star, TrendingUp, Zap, ChevronRight, Play, CheckCircle, BarChart, Heart, Award } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -66,6 +69,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
             >
+<<<<<<< HEAD
               <Link to="/submit-idea">
                 <Button 
                   size="xl" 
@@ -86,6 +90,24 @@ const Home = () => {
                   Watch Demo
                 </Button>
               </Link>
+=======
+              <Button 
+                size="xl" 
+                variant="primary"
+                rightIcon={<ArrowRight className="w-5 h-5" />}
+                className="text-lg px-10 py-5 shadow-glow hover:shadow-glow-lg btn-shimmer"
+              >
+                Start Your Journey
+              </Button>
+              <Button 
+                size="xl" 
+                variant="ghost"
+                leftIcon={<Play className="w-5 h-5" />}
+                className="text-lg px-10 py-5 text-white border border-white/20 hover:bg-white/10"
+              >
+                Watch Demo
+              </Button>
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
             </motion.div>
 
             {/* Stats - Enhanced Visual Appeal with Cards */}
@@ -159,48 +181,72 @@ const Home = () => {
                 title: 'Ideate',
                 description: 'Spark creativity with our idea generation tools and collaborative brainstorming sessions.',
                 gradient: 'from-yellow-400 to-orange-500',
+<<<<<<< HEAD
                 delay: 0,
                 link: '/submit-idea'
+=======
+                delay: 0
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               },
               {
                 icon: Users,
                 title: 'Collaborate',
                 description: 'Connect with like-minded innovators, expert mentors, and industry professionals.',
                 gradient: 'from-blue-400 to-purple-500',
+<<<<<<< HEAD
                 delay: 0.1,
                 link: '/community'
+=======
+                delay: 0.1
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               },
               {
                 icon: Target,
                 title: 'Execute',
                 description: 'Turn concepts into reality with structured project management and expert guidance.',
                 gradient: 'from-green-400 to-blue-500',
+<<<<<<< HEAD
                 delay: 0.2,
                 link: '/student-dashboard'
+=======
+                delay: 0.2
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               },
               {
                 icon: Zap,
                 title: 'Accelerate',
                 description: 'Fast-track your projects with cutting-edge tools and proven methodologies.',
                 gradient: 'from-purple-400 to-pink-500',
+<<<<<<< HEAD
                 delay: 0.3,
                 link: '/mentor-dashboard'
+=======
+                delay: 0.3
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               },
               {
                 icon: Heart,
                 title: 'Achieve',
                 description: 'Celebrate your successes and showcase your innovations to the world.',
                 gradient: 'from-orange-400 to-red-500',
+<<<<<<< HEAD
                 delay: 0.4,
                 link: '/profile'
+=======
+                delay: 0.4
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               },
               {
                 icon: TrendingUp,
                 title: 'Scale',
                 description: 'Grow your impact with resources for scaling and commercializing your innovations.',
                 gradient: 'from-teal-400 to-blue-500',
+<<<<<<< HEAD
                 delay: 0.5,
                 link: '/community'
+=======
+                delay: 0.5
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               }
             ].map((feature, index) => (
               <motion.div
@@ -210,6 +256,7 @@ const Home = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: feature.delay }}
               >
+<<<<<<< HEAD
                 <Link to={feature.link}>
                   <Card 
                     variant="glass"
@@ -241,6 +288,37 @@ const Home = () => {
                     </div>
                   </Card>
                 </Link>
+=======
+                <Card 
+                  variant="glass"
+                  hover={true}
+                  rounded="2xl"
+                  shadow="medium"
+                  className="h-full p-8 group border border-white/10 hover:border-primary-500/40"
+                >
+                  {/* Modern Icon Design */}
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.gradient} p-0.5 mb-8 group-hover:animate-pulse-glow`}>
+                    <div className="w-full h-full bg-gray-900/80 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                      <feature.icon className="w-7 h-7 text-white" />
+                    </div>
+                  </div>
+                  
+                  {/* Enhanced Typography */}
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-gray-300 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  
+                  {/* Subtle Action Indicator */}
+                  <div className="mt-6 flex items-center text-sm text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="mr-2">Learn more</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
+                </Card>
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
               </motion.div>
             ))}
           </div>
@@ -357,6 +435,7 @@ const Home = () => {
                   Join thousands of innovators who are already transforming their ideas into reality.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-5 justify-center">
+<<<<<<< HEAD
                   <Link to="/register">
                     <Button 
                       size="xl" 
@@ -376,6 +455,23 @@ const Home = () => {
                       Book a Demo
                     </Button>
                   </Link>
+=======
+                  <Button 
+                    size="xl" 
+                    variant="primary"
+                    rightIcon={<ArrowRight className="w-5 h-5" />}
+                    className="shadow-glow hover:shadow-glow-lg btn-shimmer text-lg"
+                  >
+                    Get Started Free
+                  </Button>
+                  <Button 
+                    size="xl" 
+                    variant="outline"
+                    className="border-white/20 text-white hover:bg-white/10 text-lg"
+                  >
+                    Book a Demo
+                  </Button>
+>>>>>>> 3b8b87b568fd3e4115b8e7bb4e0ed3142f6f9377
                 </div>
               </div>
             </Card>
