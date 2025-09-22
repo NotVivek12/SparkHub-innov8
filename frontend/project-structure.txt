@@ -1,0 +1,63 @@
+.
+├── README.md
+├── TAILWIND-SETUP-GUIDE.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── project-structure.txt
+├── public
+│   ├── assets
+│   │   ├── icons
+│   │   ├── images
+│   │   └── videos
+│   └── manifest.json
+├── src
+│   ├── App.jsx
+│   ├── assets
+│   │   ├── fonts
+│   │   ├── icons
+│   │   └── lottie
+│   ├── components
+│   │   ├── TailwindTest.jsx
+│   │   ├── animations
+│   │   ├── features
+│   │   ├── layout
+│   │   └── ui
+│   ├── hooks
+│   │   ├── useAnimation.js
+│   │   ├── useDebounce.js
+│   │   ├── useIntersection.js
+│   │   └── useLocalStorage.js
+│   ├── index.css
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── Community.jsx
+│   │   ├── Home.jsx
+│   │   ├── IdeaSubmission.jsx
+│   │   ├── Login.jsx
+│   │   ├── MentorDashboard.jsx
+│   │   ├── Profile.jsx
+│   │   ├── ProjectDetails.jsx
+│   │   ├── Signup.jsx
+│   │   └── StudentDashboard.jsx
+│   ├── router.jsx
+│   ├── store
+│   │   ├── authStore.js
+│   │   ├── mentorStore.js
+│   │   ├── projectStore.js
+│   │   └── uiStore.js
+│   ├── styles
+│   │   ├── global.css
+│   │   ├── tailwind-core.css
+│   │   └── test.css
+│   └── utilis
+│       ├── animation.js
+│       ├── constants.js
+│       ├── formatters.js
+│       └── validators.js
+├── tailwind.config.js
+└── vite.config.js
+
+20 directories, 41 files

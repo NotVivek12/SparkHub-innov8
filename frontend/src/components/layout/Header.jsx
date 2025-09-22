@@ -1,180 +1,188 @@
+
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-  Search, Bell, User, Settings, LogOut, Menu, X,
-  Home, Users, Lightbulb, MessageCircle, Plus, Moon, Sun
-} from 'lucide-react';
-import useAuthStore from '../../store/authStore';
-import useUIStore from '../../store/uiStore';
+import { Search, Bell, User, Settings, LogOut, Menu, X, Home, Users, MessageCircle, Plus, Moon, Sun } from 'lucide-react';
+
+// Custom hook to handle clicks outside of a component
+const useClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+};
+
+// Mock user and notification data
+const mockUser = {
+  name: 'Samee',
+  role: 'student',
+  avatar: 'S',
+};
+
+const mockNotifications = [
+  { id: 1, text: 'Your idea "Quantum Leaps" was approved!', read: false },
+  { id: 2, text: 'John commented on your post.', read: true },
+  { id: 3, text: 'You have a new mentor assigned.', read: false },
+];
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuthStore();
-  const {
-    theme,
-    toggleTheme,
-    notifications,
-    getUnreadNotificationCount,
-    searchQuery,
-    setSearchQuery,
-    setSearchActive
-  } = useUIStore();
+
+  // Initially set to true to demonstrate the profile menu.
+  // In a real app, this would be determined by your authentication state.
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [user] = useState(mockUser);
+  const [theme, setTheme] = useState('dark');
+  const [notifications, setNotifications] = useState(mockNotifications);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const searchInputRef = useRef(null);
 
-  const navItems = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'Community', href: '/community', icon: MessageCircle },
-    ...(isAuthenticated ? [
-      {
-        name: user?.role === 'mentor' ? 'Mentor Dashboard' : 'Dashboard',
-        href: user?.role === 'mentor' ? '/mentor-dashboard' : '/student-dashboard',
-        icon: Users
-      },
-      { name: 'Submit Idea', href: '/submit-idea', icon: Plus },
-    ] : [])
-  ];
+  const profileDropdownRef = useRef(null);
+  const notificationsDropdownRef = useRef(null);
+  
+  useClickOutside(profileDropdownRef, () => setIsProfileOpen(false));
+  useClickOutside(notificationsDropdownRef, () => setIsNotificationsOpen(false));
 
-  const unreadCount = getUnreadNotificationCount();
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    document.documentElement.classList.toggle('light', newTheme === 'light');
+  };
 
-  // Handle search
+  const getUnreadNotificationCount = () => notifications.filter(n => !n.read).length;
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      setSearchActive(true);
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsMenuOpen(false);
     }
   };
 
-  // Handle logout
   const handleLogout = () => {
-    logout();
+    setIsAuthenticated(false);
     setIsProfileOpen(false);
     navigate('/');
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.dropdown')) {
-        setIsProfileOpen(false);
-        setIsNotificationsOpen(false);
-      }
-    };
+  const handleProtectedNavigation = (e) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      navigate('/login');
+    }
+    setIsMenuOpen(false); // Close mobile menu after navigating
+  };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const markNotificationAsRead = (id) => {
+    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+  };
+
+  const navItems = [
+    { name: 'Home', href: '/', icon: Home, isProtected: false },
+    { name: 'Community', href: '/community', icon: MessageCircle, isProtected: false },
+    { name: user?.role === 'mentor' ? 'Mentor Dashboard' : 'Dashboard', href: user?.role === 'mentor' ? '/mentor-dashboard' : '/student-dashboard', icon: Users, isProtected: true },
+    { name: 'Submit Idea', href: '/submit-idea', icon: Plus, isProtected: true }
+  ];
+
+  const unreadCount = getUnreadNotificationCount();
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 shadow-large"
+      className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-3"
-          >
+          {/* Left: Logo */}
+          <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-3 flex-shrink-0">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <span className="text-white font-bold text-2xl">S</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">S</span>
               </div>
               <div className="hidden sm:block">
-                <span className="text-2xl font-display font-bold bg-gradient-primary bg-clip-text text-transparent">SparkHub</span>
-                <div className="text-xs text-gray-400 -mt-1">Innovation Platform</div>
+                <span className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-500">SparkHub</span>
+                <div className="text-xs text-gray-500 dark:text-gray-400 -mt-1 transition-colors duration-500">Innovation Platform</div>
               </div>
             </Link>
           </motion.div>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-lg mx-8">
-            <form onSubmit={handleSearchSubmit} className="w-full relative">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search ideas, mentors, projects..."
-                  className="
-                    w-full pl-12 pr-12 py-3 
-                    bg-gray-800/60 border border-gray-700 rounded-xl 
-                    text-white placeholder-gray-400 
-                    focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none 
-                    transition-all duration-200 
-                    hover:bg-gray-800/80
-                  "
-                />
-                {searchQuery && (
-                  <motion.button
-                    type="button"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-gray-700"
-                  >
-                    <X className="w-4 h-4" />
-                  </motion.button>
-                )}
-              </div>
-            </form>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* Center: Desktop Navigation */}
+          <div className="hidden lg:flex flex-1 items-center justify-center">
             {navItems.map((item, index) => {
               const isActive = location.pathname === item.href;
+              const linkProps = (item.isProtected && !isAuthenticated)
+                ? { to: '/login', onClick: handleProtectedNavigation }
+                : { to: item.href };
+
               return (
                 <Link
                   key={index}
-                  to={item.href}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${isActive
-                      ? 'text-blue-400 bg-blue-500/20'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                    }`}
+                  {...linkProps}
+                  className={`flex items-center gap-2 px-4 py-2 mx-2 rounded-full transition-all duration-200 font-medium ${isActive
+                    ? 'text-white bg-blue-600 shadow-md'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
                 >
                   <item.icon className="w-4 h-4" />
-                  <span className="font-medium">{item.name}</span>
+                  <span>{item.name}</span>
                 </Link>
               );
             })}
           </div>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-4">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
+            {/* Search Bar (Desktop) */}
+            <div className="hidden md:block relative">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search..."
+                  className="w-40 pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-transparent dark:border-gray-700 rounded-full text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-200"
+                />
+              </form>
+            </div>
+
             {/* Theme Toggle */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                console.log('Toggle theme clicked, current theme:', theme);
-                toggleTheme();
-              }}
-              className="p-2 bg-gray-800 dark:bg-gray-700 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-700/70 dark:hover:bg-gray-600 border border-gray-700"
+              onClick={toggleTheme}
+              className="p-2 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
-              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-400" />}
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-500" />}
             </motion.button>
 
+            {/* Conditional rendering based on authentication state */}
             {isAuthenticated ? (
               <>
                 {/* Notifications */}
-                <div className="relative dropdown">
+                <div className="relative dropdown" ref={notificationsDropdownRef}>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                    className="relative p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-700/50"
+                    className="relative p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
                   >
                     <Bell className="w-5 h-5" />
                     {unreadCount > 0 && (
@@ -187,104 +195,77 @@ const Header = () => {
                       </motion.span>
                     )}
                   </motion.button>
-
-                  {/* Notifications Dropdown */}
                   {isNotificationsOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 mt-2 w-80 glass rounded-xl border border-gray-700 shadow-2xl"
+                      className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl"
                     >
-                      <div className="p-4 border-b border-gray-700">
-                        <div className="flex justify-between items-center">
-                          <h3 className="font-semibold text-white">Notifications</h3>
-                          {unreadCount > 0 && (
-                            <span className="text-xs text-gray-400">{unreadCount} unread</span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="max-h-96 overflow-y-auto">
-                        {notifications.length > 0 ? (
-                          notifications.slice(0, 5).map((notification) => (
+                      {notifications.length > 0 ? (
+                        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                          {notifications.map(notification => (
                             <div
                               key={notification.id}
-                              className={`p-4 border-b border-gray-700/50 last:border-b-0 hover:bg-gray-700/30 transition-colors ${!notification.read ? 'bg-blue-500/10' : ''
-                                }`}
+                              onClick={() => markNotificationAsRead(notification.id)}
+                              className={`p-4 transition-colors ${!notification.read ? 'bg-blue-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'} hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer`}
                             >
-                              <p className="text-white text-sm">{notification.message}</p>
-                              <p className="text-gray-400 text-xs mt-1">
-                                {new Date(notification.timestamp).toLocaleTimeString()}
+                              <p className={`text-sm ${!notification.read ? 'font-medium text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                                {notification.text}
                               </p>
                             </div>
-                          ))
-                        ) : (
-                          <div className="p-8 text-center text-gray-400">
-                            <Bell className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                            <p>No notifications yet</p>
-                          </div>
-                        )}
-                      </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="p-8 text-center text-gray-400">
+                          <Bell className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                          <p>No notifications yet</p>
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </div>
 
                 {/* Profile Dropdown */}
-                <div className="relative dropdown">
+                <div className="relative dropdown" ref={profileDropdownRef}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-700/50 transition-colors"
+                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                   >
-                    <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {user?.avatar || user?.name?.charAt(0) || 'U'}
                     </div>
-                    <span className="hidden sm:block text-white font-medium">{user?.name}</span>
                   </motion.button>
 
-                  {/* Profile Dropdown Menu */}
                   {isProfileOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 mt-2 w-64 glass rounded-xl border border-gray-700 shadow-2xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden"
                     >
-                      {/* Profile Header */}
-                      <div className="p-4 bg-gradient-primary/20">
+                      <div className="p-4 bg-gray-100 dark:bg-gray-800">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                             {user?.avatar || user?.name?.charAt(0) || 'U'}
                           </div>
                           <div>
-                            <p className="font-semibold text-white">{user?.name}</p>
-                            <p className="text-blue-300 text-sm capitalize">{user?.role}</p>
+                            <p className="font-semibold text-gray-900 dark:text-white">{user?.name}</p>
+                            <p className="text-blue-600 dark:text-blue-300 text-sm capitalize">{user?.role}</p>
                           </div>
                         </div>
                       </div>
-
-                      {/* Menu Items */}
                       <div className="py-2">
-                        <Link
-                          to="/profile"
-                          onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors"
-                        >
+                        <Link to="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                           <User className="w-4 h-4" />
                           <span>My Profile</span>
                         </Link>
-                        <Link
-                          to="/settings"
-                          onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors"
-                        >
+                        <Link to="/settings" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                           <Settings className="w-4 h-4" />
                           <span>Settings</span>
                         </Link>
-                        <hr className="my-2 border-gray-700" />
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
-                        >
+                        <hr className="my-2 border-gray-200 dark:border-gray-700" />
+                        <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                           <LogOut className="w-4 h-4" />
                           <span>Sign Out</span>
                         </button>
@@ -295,18 +276,11 @@ const Header = () => {
               </>
             ) : (
               /* Auth Buttons */
-              <div className="hidden md:flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-gray-700/50"
-                >
+              <div className="hidden lg:flex items-center gap-3">
+                <Link to="/login" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
                   Login
                 </Link>
-                <Link
-                  to="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="bg-gradient-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition-transform font-medium"
-                >
+                <Link to="/signup" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:scale-105 transition-transform font-medium shadow-md">
                   Sign Up
                 </Link>
               </div>
@@ -315,7 +289,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
+              className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -324,12 +298,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-gray-700 py-4"
-          >
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="lg:hidden border-t border-gray-200 dark:border-gray-800 py-4 overflow-hidden">
             {/* Mobile Search */}
             <div className="mb-4">
               <form onSubmit={handleSearchSubmit} className="relative">
@@ -339,7 +308,7 @@ const Header = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
                 />
               </form>
             </div>
@@ -348,15 +317,18 @@ const Header = () => {
             <div className="space-y-2">
               {navItems.map((item, index) => {
                 const isActive = location.pathname === item.href;
+                const linkProps = (item.isProtected && !isAuthenticated)
+                  ? { to: '/login', onClick: handleProtectedNavigation }
+                  : { to: item.href, onClick: () => setIsMenuOpen(false) };
+
                 return (
                   <Link
                     key={index}
-                    to={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
-                        ? 'text-blue-400 bg-blue-500/20'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                      }`}
+                    {...linkProps}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors font-medium ${isActive
+                      ? 'text-white bg-blue-600'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
                   >
                     <item.icon className="w-5 h-5" />
                     <span>{item.name}</span>
@@ -367,19 +339,11 @@ const Header = () => {
 
             {/* Mobile Auth */}
             {!isAuthenticated && (
-              <div className="pt-4 border-t border-gray-700 mt-4 space-y-2">
-                <Link
-                  to="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block text-center py-3 text-gray-300 hover:text-white transition-colors"
-                >
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-4 space-y-2">
+                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block text-center py-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors font-medium">
                   Login
                 </Link>
-                <Link
-                  to="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block text-center bg-gradient-primary text-white py-3 rounded-lg font-medium"
-                >
+                <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="block text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium">
                   Sign Up
                 </Link>
               </div>
