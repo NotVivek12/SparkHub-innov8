@@ -7,7 +7,7 @@ import Header from './components/layout/Header';
 function App() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   // 1. Authentication state is now managed here
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -199,7 +199,7 @@ function App() {
                 <span>&copy; 2024 SparkHub. All rights reserved.</span>
                 <span className="hidden md:inline">•</span>
                 <span className="flex items-center gap-1">
-                  Built with ❤️ for innovators
+                  Built with ❤️ for innovators by innov8-cit.
                 </span>
               </div>
 

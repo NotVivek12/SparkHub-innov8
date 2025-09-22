@@ -5,7 +5,7 @@ const useUIStore = create(
   persist(
     (set, get) => ({
       // Theme state
-      theme: 'dark',
+      theme: 'light',
       
       // Loading states
       globalLoading: false,
@@ -283,7 +283,7 @@ const useUIStore = create(
       // Reset to defaults
       resetUI: () => {
         set({
-          theme: 'dark',
+          theme: 'light',
           globalLoading: false,
           pageLoading: false,
           modals: Object.keys(get().modals).reduce((acc, key) => {

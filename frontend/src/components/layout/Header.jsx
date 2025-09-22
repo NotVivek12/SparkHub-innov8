@@ -43,7 +43,7 @@ const Header = () => {
   // In a real app, this would be determined by your authentication state.
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [user] = useState(mockUser);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const [notifications, setNotifications] = useState(mockNotifications);
   const [searchQuery, setSearchQuery] = useState('');
 
